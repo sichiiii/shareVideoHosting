@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="{{ url_for('static', path='css/index.css') }}" rel="stylesheet">
+</head>
+  <body>
+    
+      <div class="preloader">
+        <div class="preloader__row">
+            <div class="preloader__item"></div>
+            <div class="preloader__item"></div>
+            <script>
+              window.onload = function () {
+                document.body.classList.add('loaded_hiding');
+                window.setTimeout(function () { 
+                document.body.classList.add('loaded');
+                document.body.classList.remove('loaded_hiding');
+                }, 500);
+              }
+            </script>
+          </div>
+      </div>
+      <form method="post">
+      <div class="wrap">
+        
+        <div class="search">
+            
+              <input name="url" type="text" class="searchTerm" placeholder="Введите ссылку на видеоролик" action=''>
+              <button type="submit" class="searchButton">
+              <i class="fa fa-search"></i>
+            
+          </button>
+        </div>
+      </form>
+     </div>
+  </body>
+</html>
