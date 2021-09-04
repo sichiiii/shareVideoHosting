@@ -7,7 +7,6 @@ from pydantic import BaseModel
 from pathlib import Path
 
 import url_checker
-import get_playback
 
 shareVideoHostingApi = FastAPI()
 
@@ -19,20 +18,13 @@ shareVideoHostingApi.mount(
 templates = Jinja2Templates(directory="templates")
 
 directory=Path(__file__).parent.parent.absolute() 
-print(directory)
-
-class Url(BaseModel):
-    url : str
 
 @shareVideoHostingApi.get("/")
 async def root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-@shareVideoHostingApi.post("/")
-async def root(request: Request, url: str = Form(...)):
+@shareVideoHostingApi.post("/watch")
+async def watch(request: Request, url: str = Form(...)):
     urlCheckerObject = url_checker.Url_Checker(url)
-    final_url = urlCheckerObject.get_url()[0]
-    playbackObject = get_playback.Playback(final_url)
-    playbackObject.get_playback()
-    return templates.TemplateResponse("index.html", {"request": request})
-    
+    final_url = urlCheckerObject.get_url()
+    return templates.TemplateResponse("watch.html", {"request": request, "url" : final_url})
