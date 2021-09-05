@@ -7,7 +7,7 @@
     <td>
 <iframe width="1120" height="630" id="video" src="https://www.youtube.com/embed/{{ url }}?enablejsapi=1&html5=1&mute=1&controls=0" frameborder="0" allowfullscreen></iframe>
     </td>
-    <td valign="top" width: 230px; style="word-wrap: break-word; hyphens: auto;">
+    <td valign="top" width: 230px; style="word-wrap: break-word; hyphens: auto; color: white;">
       <ul  class="word" id='messages'>
       </ul>
     </td>
@@ -41,4 +41,12 @@
       event.preventDefault()
   }
 </script>
+
+<script>
+  function getIP(json) {
+    alert("My public IP address is: " + json.ip);
+  }
+  </script>
+<script src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+  
 
