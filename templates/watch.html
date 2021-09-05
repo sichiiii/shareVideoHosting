@@ -2,13 +2,43 @@
 <script src="/static/watch.js"></script>
 
 
-
-<!-- Make sure ?enablejsapi=1 is on URL -->
+<table>
+  <tr>
+    <td>
 <iframe width="1120" height="630" id="video" src="https://www.youtube.com/embed/{{ url }}?enablejsapi=1&html5=1&mute=1&controls=0" frameborder="0" allowfullscreen></iframe>
-
-
+    </td>
+    <td valign="top" width: 230px; style="word-wrap: break-word; hyphens: auto;">
+      <ul  class="word" id='messages'>
+      </ul>
+    </td>
+  </tr>
+</table>
 <div class="buttons">
   <!-- if we needed to change height/width we could use viewBox here -->
   <button class="button" id="play-button">Start</button>
   <button class="button" id="pause-button">Pause</button>
+  <form action="" onsubmit="sendMessage(event)" style="margin-left: 609px; margin-top: -40px;">
+    <input class="button" type="text" id="messageText" autocomplete="off" style="width:552px;">
+    <button class="button">Send</button>
+  </form>
 </div>
+
+
+
+<script>
+  var ws = new WebSocket("ws://localhost:8000/ws");
+  ws.onmessage = function(event) {
+      var messages = document.getElementById('messages')
+      var message = document.createElement('li')
+      var content = document.createTextNode(event.data)
+      message.appendChild(content)
+      messages.appendChild(message)
+  };
+  function sendMessage(event) {
+      var input = document.getElementById("messageText")
+      ws.send(input.value)
+      input.value = ''
+      event.preventDefault()
+  }
+</script>
+

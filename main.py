@@ -1,7 +1,9 @@
 import re
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, WebSocket
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI, WebSocket
+from fastapi.responses import HTMLResponse
 
 from pydantic import BaseModel
 from pathlib import Path
@@ -28,3 +30,14 @@ async def watch(request: Request, url: str = Form(...)):
     urlCheckerObject = url_checker.Url_Checker(url)
     final_url = urlCheckerObject.get_url()
     return templates.TemplateResponse("watch.html", {"request": request, "url" : final_url})
+
+@shareVideoHostingApi.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+
+    await websocket.accept()
+
+    while True:
+
+        data = await websocket.receive_text()
+
+        await websocket.send_text(f"Message text was: {data}")

@@ -8,7 +8,6 @@ class Url_Checker():
     def get_url(self):
         regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
         url = re.findall(regex, self.url)
-        print(url[0])
         query = up.urlparse(url[0][0])
         if query.hostname == 'youtu.be':
             return query.path[1:]
