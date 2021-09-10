@@ -1,52 +1,47 @@
-<link href="{{ url_for('static', path='css/watch.css') }}" rel="stylesheet">
-<script src="/static/watch.js"></script>
+<!DOCTYPE html>
 
-
-<table>
-  <tr>
-    <td>
-<iframe width="1120" height="630" id="video" src="https://www.youtube.com/embed/{{ url }}?enablejsapi=1&html5=1&mute=1&controls=0" frameborder="0" allowfullscreen></iframe>
-    </td>
-    <td valign="top" width: 230px; style="word-wrap: break-word; hyphens: auto; color: white;">
-      <ul  class="word" id='messages'>
-      </ul>
-    </td>
-  </tr>
-</table>
-<div class="buttons">
-  <!-- if we needed to change height/width we could use viewBox here -->
-  <button class="button" id="play-button">Start</button>
-  <button class="button" id="pause-button">Pause</button>
-  <form action="" onsubmit="sendMessage(event)" style="margin-left: 609px; margin-top: -40px;">
-    <input class="button" type="text" id="messageText" autocomplete="off" style="width:552px;">
-    <button class="button">Send</button>
-  </form>
-</div>
-
-
-
-<script>
-  var ws = new WebSocket("ws://localhost:8000/ws");
-  ws.onmessage = function(event) {
-      var messages = document.getElementById('messages')
-      var message = document.createElement('li')
-      var content = document.createTextNode(event.data)
-      message.appendChild(content)
-      messages.appendChild(message)
-  };
-  function sendMessage(event) {
-      var input = document.getElementById("messageText")
-      ws.send(input.value)
-      input.value = ''
-      event.preventDefault()
-  }
-</script>
-
-<script>
-  function getIP(json) {
-    alert("My public IP address is: " + json.ip);
-  }
-  </script>
-<script src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
-  
-
+<html>
+  <link href="{{ url_for('static', path='css/watch.css') }}" rel="stylesheet">
+  <script src="/static/watch.js"></script>
+    <head>
+        <title>ShareVideoHosting</title>
+    </head>
+    <body>
+      <table>
+        <tr>
+          <td>
+      <iframe width="1120" height="630" id="video" src="https://www.youtube.com/embed/{{ url }}?enablejsapi=1&html5=1&mute=1&controls=0" frameborder="0" allowfullscreen></iframe>
+          </td>
+          <td valign="top" width: 230px; style="word-wrap: break-word; hyphens: auto; color: white;">
+            <ul  class="word" id='messages'>
+            </ul>
+          </td>
+        </tr>
+      </table>
+      <button class="button" id="play-button" style="width: 483px;">Start</button>
+      <button class="button" id="pause-button" style="width: 483px; margin-left: 487px; margin-top: -40px;">Pause</button>
+        <span id="ws-id" style='visibility:hidden;'></span>
+        <form action="" onsubmit="sendMessage(event)">
+            <input class="button" type="text" id="messageText" autocomplete="off" style="width: 409px; margin-left: 973px; margin-top: -59px;"/>
+            <button class="button" style="width: 100px; margin-left: 1385px; margin-top: -40px;">&#9658;</button>
+        </form>
+        <script>
+            var client_id = Date.now()
+            document.querySelector("#ws-id").textContent = client_id;
+            var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);
+            ws.onmessage = function(event) {
+                var messages = document.getElementById('messages')
+                var message = document.createElement('li')
+                var content = document.createTextNode(event.data)
+                message.appendChild(content)
+                messages.appendChild(message)
+            };
+            function sendMessage(event) {
+                var input = document.getElementById("messageText")
+                ws.send(input.value)
+                input.value = ''
+                event.preventDefault()
+            }
+        </script>
+    </body>
+</html>

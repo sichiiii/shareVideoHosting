@@ -14,11 +14,14 @@ function onYouTubePlayerAPIReady() {
   });
 }
 
+
+
 function onPlayerReady(event) {
-  // bind events
+  event.target.setVolume(100);
+  event.target.playVideo();
   var playButton = document.getElementById("play-button");
   playButton.addEventListener("click", function () {
-    player.playVideo();
+  player.playVideo();
   });
 
   var pauseButton = document.getElementById("pause-button");
