@@ -18,15 +18,43 @@
           </td>
         </tr>
       </table>
-      <button class="button" id="play-button" style="width: 483px;">Start</button>
-      <button class="button" id="pause-button" style="width: 483px; margin-left: 487px; margin-top: -40px;">Pause</button>
-        <span id="ws-id" style='visibility:hidden;'></span>
+      <form action="" onsubmit="sendStart(event)">
+        <button class="button" id="play-button"  style="width: 472px; margin-left: 22px;">Start</button>
+      </form>
+      <form action="" onsubmit="sendPause(event)">
+        <button class="button" id="pause-button" style="width: 472px; margin-left: 498px; margin-top: -40px;">Pause</button>
+      </form>
+      <span id="ws-id" style='visibility:hidden;'></span>
         <form action="" onsubmit="sendMessage(event)">
-            <input class="button" type="text" id="messageText" autocomplete="off" style="width: 409px; margin-left: 973px; margin-top: -59px;"/>
+            <input class="button" type="text" id="messageText" autocomplete="off" style="width: 409px; margin-left: 973px; margin-top: -58px;"/>
             <button class="button" style="width: 100px; margin-left: 1385px; margin-top: -40px;">&#9658;</button>
         </form>
         <script>
             var client_id = Date.now()
+            var player;
+
+            // this function gets called when API is ready to use
+            function onYouTubePlayerAPIReady() {
+              // create the global player from the specific iframe (#video)
+              player = new YT.Player("video", {
+                events: {
+                  // call this function when player is ready to use
+                  onReady: onPlayerReady
+                }
+              });
+            }
+            function onPlayerReady(event) {
+              event.target.setVolume(100);
+              event.target.playVideo();
+
+            }
+
+            // Inject YouTube API script
+            var tag = document.createElement("script");
+            tag.src = "//www.youtube.com/player_api";
+            var firstScriptTag = document.getElementsByTagName("script")[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
             document.querySelector("#ws-id").textContent = client_id;
             var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);
             ws.onmessage = function(event) {
@@ -40,6 +68,22 @@
                 var input = document.getElementById("messageText")
                 ws.send(input.value)
                 input.value = ''
+                event.preventDefault()
+            }
+            function sendPause(event) {
+                ws.send('pause')
+                event.preventDefault()
+                var pauseButton = document.getElementById("pause-button");
+                pauseButton.addEventListener("click", function () {
+                  player.pauseVideo();
+                });
+            }
+            function sendStart(event) {
+                var playButton = document.getElementById("play-button");
+                playButton.addEventListener("click", function () {
+                player.playVideo();
+                });
+                ws.send('start')
                 event.preventDefault()
             }
         </script>

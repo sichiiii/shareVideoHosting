@@ -33,13 +33,16 @@ async def watch(request: Request, url: str = Form(...)):
     final_url = urlCheckerObject.get_url()
     return templates.TemplateResponse("watch.html", {"request": request, "url" : final_url})
     
-
 @shareVideoHostingApi.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):
     await manager.connect(websocket)
     try:
         while True:
             data = await websocket.receive_text()
+            if data == 'pause':
+                print('pause')
+            elif data == 'start':
+                print('start')
             await manager.broadcast(f"Client #{client_id} says: {data}")
     except WebSocketDisconnect:
         manager.disconnect(websocket)
