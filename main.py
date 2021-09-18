@@ -2,17 +2,15 @@ import re
 from fastapi import FastAPI, Request, Form, WebSocket
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket
 from fastapi.responses import HTMLResponse
 
 from pydantic import BaseModel
 from pathlib import Path
-from connection_manager import ConnectionManager
 
 import url_checker
 
 shareVideoHostingApi = FastAPI()
-manager = ConnectionManager()
 
 shareVideoHostingApi.mount(
     "/static",
@@ -32,18 +30,11 @@ async def watch(request: Request, url: str = Form(...)):
     urlCheckerObject = url_checker.Url_Checker(url)
     final_url = urlCheckerObject.get_url()
     return templates.TemplateResponse("watch.html", {"request": request, "url" : final_url})
+
+@shareVideoHostingApi.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
     
-@shareVideoHostingApi.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: int):
-    await manager.connect(websocket)
-    try:
-        while True:
-            data = await websocket.receive_text()
-            if data == 'pause':
-                print('pause')
-            elif data == 'start':
-                print('start')
-            await manager.broadcast(f"Client #{client_id} says: {data}")
-    except WebSocketDisconnect:
-        manager.disconnect(websocket)
-        await manager.broadcast(f"Client #{client_id} left the chat")
+    while True:
+        data = await websocket.receive_text()
+        await websocket.send_text(f"{data}")
