@@ -15,17 +15,15 @@
 </table>
 <div class="buttons">
   <!-- if we needed to change height/width we could use viewBox here -->
-  <button class="button" id="play-button" style="width: 483px;">Start</button>
-  <button class="button" id="pause-button" style="width: 483px; margin-left: 487px; margin-top: -40px;">Pause</button>
-  <form action="" onsubmit="sendMessage(event)">
-    <input class="button" type="text" id="messageText" placeholder="nickname" autocomplete="off" style="width: 150px; margin-left: 973px; margin-top: -40px;">
-    <input class="button" type="login_text" placeholder="message" id="messageLogin" autocomplete="off" style="width:234px; margin-left: 1126px; margin-top: -40px;">
-
-    <button class="button" style="width: 100px; margin-left: 1364px; margin-top: -40px;">&#9658;</button>
+  <button class="button" id="play-button">Start</button>
+  <button class="button" id="pause-button">Pause</button>
+  <form action="" onsubmit="sendMessage(event)" style="margin-left: 609px; margin-top: -40px;">
+    <input class="button" type="text" id="messageText" autocomplete="off" style="width:552px;">
+    <button class="button">Send</button>
   </form>
 </div>
 
-  
+
 
 <script>
   var ws = new WebSocket("ws://localhost:8000/ws");
@@ -38,12 +36,17 @@
   };
   function sendMessage(event) {
       var input = document.getElementById("messageText")
-      var input_token = document.getElementById("messageLogin")
-      ws.send(input.value+": "+input_token.value)
-      input_token.value = ''
+      ws.send(input.value)
+      input.value = ''
       event.preventDefault()
   }
 </script>
 
+<script>
+  function getIP(json) {
+    alert("My public IP address is: " + json.ip);
+  }
+  </script>
+<script src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
   
 
