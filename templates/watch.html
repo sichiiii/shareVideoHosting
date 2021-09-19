@@ -9,7 +9,7 @@
       <table>
         <tr>
           <td>
-      <iframe style="margin-left: 22px;" width="1120" height="630" id="video" src="https://www.youtube.com/embed/{{ url }}?enablejsapi=1&html5=1&mute=1&controls=0" frameborder="0" allowfullscreen></iframe>
+      <iframe style="margin-left: 22px;" width="1120" height="630" id="video" src="https://www.youtube.com/embed/{{ url }}?enablejsapi=1&html5=1&controls=0" frameborder="0" allowfullscreen allow="autoplay"></iframe>
           </td>
           <td valign="top" style="word-wrap: break-word; hyphens: auto; color: white;">
             <ul  class="word" id='messages'>
@@ -78,7 +78,7 @@
                     setTimeout(checkTime, 100);
                   }
               }
-                
+              checkTime()
             };
             function sendMessage(event) {
                 var input = document.getElementById("messageText")
