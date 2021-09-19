@@ -1,32 +1,6 @@
-h1 { color: rgb(255, 255, 255); font-family: 'Open Sans Condensed', sans-serif; font-size: 64px; font-weight: 700; line-height: 64px; padding: 25px 30px; text-align: center; text-transform: uppercase; 
-	right: 1000px;
-	width: 1000px;}
-
-	h2 { color: rgb(255, 255, 255); font-family: 'Open Sans Condensed', sans-serif; font-size: 64px; font-weight: 700; line-height: 64px; padding: 25px 30px; text-align: center; text-transform: uppercase; margin-left: 30px;}
-	
-	html, body {
-		width: 100%;
-		height:100%;
-	  }
-	  
-	  body {
-		  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-		  background-size: 400% 400%;
-		  animation: gradient 15s ease infinite;
-	  }
-	  
-	  @keyframes gradient {
-		  0% {
-			  background-position: 0% 50%;
-		  }
-		  50% {
-			  background-position: 100% 50%;
-		  }
-		  100% {
-			  background-position: 0% 50%;
-		  }
-	  }
-
+body {
+    background-color: rgb(0, 0, 0);
+  }
 .button {
     border-color: #ff9800;
     border-radius: 5px;
@@ -35,12 +9,13 @@ h1 { color: rgb(255, 255, 255); font-family: 'Open Sans Condensed', sans-serif; 
     border: none;
     top: -15px;
     padding: 0px;
-    width: 300px;
+    width: 100px;
     height: 40px;
+    left: -20px;
     text-align: center;
     color: #ffffff;
     font-size: 27px;
-        display: grid;
+    display: grid;
     grid-gap: 5px;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     grid-template-rows: repeat(2, 100px);
@@ -76,7 +51,7 @@ h1 { color: rgb(255, 255, 255); font-family: 'Open Sans Condensed', sans-serif; 
     transition: 0s
 }
 .word {
-    margin-top: 19px; 
+    margin-top: 15px; 
     height: 610px;
     width: 320px; 
     background: #000000;
@@ -85,9 +60,5 @@ h1 { color: rgb(255, 255, 255); font-family: 'Open Sans Condensed', sans-serif; 
     word-break: break-all;
     overflow: auto;
     border-radius: 5px;
-    display: grid;
-    grid-gap: 5px;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    grid-template-rows: repeat(2, 100px);
    }
 
