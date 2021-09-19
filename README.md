@@ -1,8 +1,7 @@
 # shareVideoHosting
 
 Share yt video right in web-browser.
-Build on Fastapi(actually first project on fastapi)
-
+Build on Fastapi(actually first project on fastapi). Inline styles yeeeeaaahhh
 ![1](https://github.com/sichiiii/shareVideoHosting/blob/main/pictures/1.gif?raw=true)
 
 ![2](https://github.com/sichiiii/shareVideoHosting/blob/main/pictures/2.png?raw=true)
